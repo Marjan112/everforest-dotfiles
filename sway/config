@@ -1,0 +1,180 @@
+set $mod Mod4
+
+exec nm-applet
+
+exec blueman-applet
+
+# exec dbus-update-activation-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP=sway XDG_SESSION_TYPE=wayland
+
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+input "type:touchpad" {
+    tap enabled
+    natural_scroll enabled
+}
+
+floating_modifier $mod
+
+bindsym $mod+Return exec foot
+
+bindsym $mod+Shift+q kill
+
+bindsym $mod+d exec rofi -show drun
+
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+h splith
+
+bindsym $mod+v splitv
+
+bindsym $mod+f fullscreen toggle
+
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Shift+space floating toggle
+
+bindsym $mod+space focus mode_toggle
+
+bindsym $mod+a focus parent
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# --------------------------------------------------
+# Configuration / Sway
+# --------------------------------------------------
+
+# Reload configuration
+bindsym $mod+Shift+c reload
+
+# Exit Sway
+bindsym $mod+Shift+e exec swaynag -t warning \
+    -m 'You pressed the exit shortcut. Do you really want to exit Sway?' \
+    -b 'Yes, exit Sway' 'swaymsg exit'
+
+# Power off
+bindsym $mod+Shift+p exec swaynag -t warning \
+    -m 'Do you really want to power off the system?' \
+    -b 'Yes, power off' 'loginctl poweroff'
+
+# Reboot
+bindsym $mod+Shift+r exec swaynag -t warning \
+    -m 'Do you really want to reboot the system?' \
+    -b 'Yes, reboot' 'loginctl reboot'
+
+# --------------------------------------------------
+# Resize mode
+# --------------------------------------------------
+
+mode "resize" {
+    # Keyboard layout
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym semicolon resize grow width 10 px or 10 ppt
+
+    # Arrow keys
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    # Exit resize mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+bar {
+    position bottom
+    status_command i3blocks
+    colors {
+        background #2D353B
+        statusline #D3C6AA
+        separator  #859289
+
+        # Class            border   background text
+        focused_workspace  #A7C080  #343F44    #D3C6AA
+        active_workspace   #343F44  #343F44    #D3C6AA
+        inactive_workspace #2D353B  #2D353B    #859289
+        urgent_workspace   #E67E80  #E67E80    #2D353B    }
+}
+
+bindsym XF86MonBrightnessUp exec brightnessctl set +5% && pkill -RTMIN+2 i3blocks 
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%- && pkill -RTMIN+2 i3blocks
+
+bindsym Print exec grimshot copy output
+bindsym Shift+Print exec grimshot copy area
+
+font pango:monospace 8
+focus_follows_mouse no
+hide_edge_borders smart
+default_border pixel 2
+default_floating_border pixel 2
+
+# class                     border  background text     indicator child_border
+client.focused              #a7c080 #4f595f    #D3C6AA  #a7c080   #a7c080
+client.focused_inactive     #4f595f #4f595f    #D3C6AA  #4f595f   #4f595f
+client.focused_tab_title    #4f595f #4f595f    #D3C6AA  #4f595f   #4f595f
+client.unfocused            #4f595f #4f595f    #D3C6AA  #4f595f   #4f595f
+client.urgent               #4f595f #4f595f    #D3C6AA  #4f595f   #4f595f
+client.placeholder          #4f595f #4f595f    #D3C6AA  #4f595f   #4f595f
+client.background           #ffffff
+
+exec_always swaymsg output "*" bg $(cat ~/.twall) stretch

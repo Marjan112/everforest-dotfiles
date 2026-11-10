@@ -1,0 +1,5 @@
+
+//@theme "/usr/share/rofi/themes/Arc-Dark.rasi"
+
+// @theme "/home/maki/.local/share/rofi/themes/squared-everforest.rasi"
+@theme "/home/maki/.config/rofi/squared-everforest.rasi"
